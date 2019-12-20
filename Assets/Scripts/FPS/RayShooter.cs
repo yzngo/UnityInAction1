@@ -24,7 +24,21 @@ public class RayShooter : MonoBehaviour
             RaycastHit hit;
             if(Physics.Raycast(ray, out hit))
             {
-                StartCoroutine(SphereIndicator(hit.point));
+                /*
+                 * Technically, the hit information doesn’t return the game object hit; 
+                 * it indicates the Transform component hit. 
+                 * You can then access gameObject as a property of transform.
+                */            
+                GameObject hitObject = hit.transform.gameObject;
+                ReactiveTarget target = hitObject.GetComponent<ReactiveTarget>();
+                if(target != null)
+                {
+                    target.ReactToHit();
+                }
+                else
+                {
+                    StartCoroutine(SphereIndicator(hit.point));
+                }
             }
         }
     }
