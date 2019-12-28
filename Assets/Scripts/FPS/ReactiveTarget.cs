@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class ReactiveTarget : MonoBehaviour
 {
+    private WanderingAI behavior;
     // Start is called before the first frame update
     void Start()
     {
-        
+        behavior = GetComponent<WanderingAI>();
     }
 
     // Update is called once per frame
@@ -18,6 +19,10 @@ public class ReactiveTarget : MonoBehaviour
 
     public void ReactToHit()
     {
+        if(behavior != null)
+        {
+            behavior.SetAlive(false);
+        }
         StartCoroutine(Die());
     }
 
