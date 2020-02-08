@@ -10,15 +10,24 @@ public class WanderingAI : MonoBehaviour
 
     public float speed = 3.0f;
     public float obstacleRange = 5.0f;
+    public const float baseSpeed = 3.0f;
 
     private bool _alive;
     // Start is called before the first frame update
+    void Awake() 
+    {
+        Messenger<float>.AddListener(GameEvent.SPEED_CHANGED, OnSpeedChanged);
+    }
+    void OnDestroy() 
+    {
+        Messenger<float>.RemoveListener(GameEvent.SPEED_CHANGED, OnSpeedChanged);
+    }
     void Start()
     {
         _alive = true;
     }
 
-    // Update is called once per frame
+    // Update is called once per frame  
     void Update()
     {
         if(_alive == true)
@@ -51,4 +60,9 @@ public class WanderingAI : MonoBehaviour
     /// </summary>
     /// <param name="alive">true or false</param>
     public void SetAlive(bool alive) => _alive = alive;
+
+    private void OnSpeedChanged(float value)
+    {
+        speed = baseSpeed * value;
+    }
 }
